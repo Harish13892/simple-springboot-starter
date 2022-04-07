@@ -18,3 +18,6 @@ generate-code-coverage-report:
 
 environment-variable-test:
 	@echo ${MY_TEST_VARIABLE}
+
+docker-build-image:
+	docker build -t test-image:1 .
