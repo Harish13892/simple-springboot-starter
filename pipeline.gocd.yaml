@@ -1,0 +1,97 @@
+format_version: 10
+pipelines:
+  test-and-build-pipeline:
+    group: starter-pipeline
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-4eec6ba:
+        git: https://github.com/Harish13892/simple-springboot-starter.git
+        shallow_clone: false
+        auto_update: true
+        branch: main
+    stages:
+      - Test:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            run-checkstyles-and-unit-tests:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '''Run checkstyles and unit tests'''
+                    command: echo
+                    run_if: passed
+      - Build:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            build-image:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '''build image'''
+                    command: echo
+                    run_if: passed
+            tag-image:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '''tag image'''
+                    command: echo
+                    run_if: passed
+            push-image:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '''push image'''
+                    command: echo
+                    run_if: passed
+  deploy-to-dev-pipeline:
+    group: starter-pipeline
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      My-pipeline:
+        ignore_for_scheduling: false
+        pipeline: test-and-build-pipeline
+        stage: Build
+    stages:
+      - Deploy:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            pull-image:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - Pull
+                    command: echo
+                    run_if: passed
+            trigger-deploy:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - '''Trigger deploy'''
+                    command: echo
+                    run_if: passed
