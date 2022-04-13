@@ -3,7 +3,7 @@ PLATFORM = --platform linux/amd64
 clean:
 	./gradlew clean
 
-build: clean
+build:
 	./gradlew build
 
 start:
