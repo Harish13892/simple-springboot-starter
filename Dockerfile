@@ -5,7 +5,7 @@ RUN apk update && apk add --no-cache make
 WORKDIR /service
 COPY build.gradle settings.gradle gradlew gradlew.bat /service/
 COPY gradle /service/gradle
-RUN ./gradlew build 2>/dev/null || true
+RUN ./gradlew build --no-daemon 2>/dev/null || true
 COPY . .
 
 FROM base as gradletest
