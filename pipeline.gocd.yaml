@@ -25,8 +25,8 @@ pipelines:
               tasks:
                 - exec:
                     arguments:
-                      - '''Run checkstyles and unit tests'''
-                    command: echo
+                      - docker-gradle-test-image
+                    command: make
                     run_if: passed
       - Build:
           fetch_materials: true
@@ -41,8 +41,8 @@ pipelines:
               tasks:
                 - exec:
                     arguments:
-                      - '''build image'''
-                    command: echo
+                      - docker-gradle-build-image
+                    command: make
                     run_if: passed
             tag-image:
               timeout: 0
