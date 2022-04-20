@@ -29,3 +29,6 @@ docker-gradle-build-image:
 
 docker-run-app:
 	docker run -it -d --rm --name springboot-test build-image:1
+
+random:
+	@echo 'Hello'
